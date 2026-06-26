@@ -57,29 +57,53 @@
 /* ============================================================
    PART A — MAKE & READ
    ============================================================ */
-
+console.log("Part A-1");
 // ----- 1. Build an object -----
 // Write `makeUser()` that takes NO input and RETURNS the object { name: "Sam", age: 20 }.
 // your code here
+
+function makeUser() {
+  return {
+    name: "Sam",
+    age: 20,
+  };
+}
+console.log(makeUser().name);
+console.log(makeUser().age);
+console.log(typeof makeUser());
 
 // console.log(makeUser());
 // TEST 1:  makeUser().name      ->  "Sam"
 // TEST 2:  makeUser().age       ->  20
 // TEST 3:  typeof makeUser()    ->  "object"
-
+console.log("Part A-2");
 // ----- 2. Read with a dot -----
 // Write `getName(user)` that RETURNS the `name` property of the object passed in.
 // your code here
+
+function getName(user) {
+  return user.name;
+}
+console.log(getName({ name: "Ada", age: 30 }));
+console.log(getName({ name: "Bo" }));
+console.log(getName({ name: "" }));
 
 // console.log(getName({ name: "Ada", age: 30 }));
 // TEST 1:  getName({ name: "Ada", age: 30 })  ->  "Ada"
 // TEST 2:  getName({ name: "Bo" })            ->  "Bo"
 // TEST 3:  getName({ name: "" })              ->  ""
-
+console.log("Part A-3");
 // ----- 3. Read with a variable key (bracket) -----
 // Write `getValue(obj, key)` that RETURNS the value behind `key`. The key is in a
 // variable, so you MUST use bracket access obj[key] (dot would look for "key" literally).
 // your code here
+
+function getValue(obj, key) {
+  return obj[key];
+}
+console.log(getValue({ a: 1, b: 2 }, "b"));
+console.log(getValue({ color: "red" }, "color"));
+console.log(getValue({ a: 1 }, "missing"));
 
 // console.log(getValue({ a: 1, b: 2 }, "b"));
 // TEST 1:  getValue({ a: 1, b: 2 }, "b")        ->  2
@@ -89,30 +113,54 @@
 /* ============================================================
    PART B — CHANGE PROPERTIES (add / update / remove / check)
    ============================================================ */
-
+console.log("Part B-4");
 // ----- 4. Update a property -----
 // Write `setAge(user, newAge)` that sets user.age to newAge and RETURNS the same user.
 // your code here
+
+function setAge(user, newAge) {
+  user.age = newAge;
+  return user;
+}
+console.log(setAge({ name: "Sam", age: 20 }, 21).age);
+console.log(setAge({ name: "Sam", age: 20 }, 21).name);
+console.log(setAge({ age: 5 }, 0).age);
 
 // console.log(setAge({ name: "Sam", age: 20 }, 21));
 // TEST 1:  setAge({ name: "Sam", age: 20 }, 21).age  ->  21
 // TEST 2:  setAge({ name: "Sam", age: 20 }, 21).name ->  "Sam"   (other keys untouched)
 // TEST 3:  setAge({ age: 5 }, 0).age                 ->  0
-
+console.log("Part B-5");
 // ----- 5. Add a property with a variable key -----
 // Write `addField(obj, key, value)` that adds key = value to obj and RETURNS obj.
 // Use bracket set: obj[key] = value.
 // your code here
 
+function addField(obj, key, value) {
+  obj[key] = value;
+  return obj;
+}
+console.log(addField({ name: "Sam" }, "age", 20).age);
+console.log(addField({}, "x", 5).x);
+console.log(addField({ a: 1 }, "a", 9).a);
+
 // console.log(addField({ name: "Sam" }, "age", 20));
 // TEST 1:  addField({ name: "Sam" }, "age", 20).age   ->  20
 // TEST 2:  addField({}, "x", 5).x                      ->  5
 // TEST 3:  addField({ a: 1 }, "a", 9).a                ->  9     (existing key gets overwritten)
-
+console.log("Part B-6");
 // ----- 6. Remove a property -----
 // Write `removeField(obj, key)` that deletes that key from obj and RETURNS obj.
 // Hint: delete obj[key].
 // your code here
+
+function removeField(obj, key) {
+  delete obj[key];
+  return obj;
+}
+console.log(removeField({ a: 1, b: 2 }, "a"));
+console.log(removeField({ a: 1, b: 2 }, "a"));
+console.log(removeField({ a: 1, b: 2 }, "a").b);
 
 // console.log(removeField({ a: 1, b: 2 }, "a"));
 // TEST 1:  "a" in removeField({ a: 1, b: 2 }, "a")     ->  false
@@ -398,7 +446,7 @@ const SCHOOL = {
       teacher: "Ms. Bola",
       students: {
         cleo: { math: 100, english: 90, science: 80 }, // average 90
-        dare: { math: 60, english: 60, science: 60 },  // average 60
+        dare: { math: 60, english: 60, science: 60 }, // average 60
       },
     },
   },
@@ -430,4 +478,3 @@ const SCHOOL = {
    All 3 tests match for an exercise = you got it right.
    Any mismatch = a bug to hunt. Happy object-ing!
    ============================================================ */
- 
