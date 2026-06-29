@@ -421,32 +421,53 @@ function averageValue(obj) {
   return total / count;
 }
 console.log(averageValue({ a: 2, b: 4, c: 6 }));
-console.log(averageValue({ x: 10 }))
-console.log(averageValue({ a: 1,b:2 }))
+console.log(averageValue({ x: 10 }));
+console.log(averageValue({ a: 1, b: 2 }));
 // console.log(averageValue({ a: 2, b: 4, c: 6 }));
 // TEST 1:  averageValue({ a: 2, b: 4, c: 6 })  ->  4
 // TEST 2:  averageValue({ x: 10 })             ->  10
 // TEST 3:  averageValue({ a: 1, b: 2 })        ->  1.5
-console.log("Part D-18")
+console.log("Part D-18");
 // ----- 18. Double every value (new object) -----
 // Write `doubleValues(obj)` that RETURNS a NEW object with the same keys but every
 // value times 2. The original must stay untouched.
 // Hint: out = {}; for (const k in obj) out[k] = obj[k] * 2.
 // your code here
 
-function doubleValues(obj){
-  
+function doubleValues(obj) {
+  out = {};
+  for (const k in obj) {
+    out[k] = obj[k] * 2;
+  }
+  return out;
 }
+console.log(doubleValues({ a: 1, b: 2 }));
+console.log(doubleValues({ x: 0 }));
+console.log(doubleValues({}));
 
 // console.log(doubleValues({ a: 1, b: 2 }));
 // TEST 1:  doubleValues({ a: 1, b: 2 })  ->  { a: 2, b: 4 }
 // TEST 2:  doubleValues({ x: 0 })        ->  { x: 0 }
 // TEST 3:  doubleValues({})              ->  {}
-
+console.log("Part D-19");
 // ----- 19. Render key=value pairs -----
 // Write `toPairs(obj)` that RETURNS "key=value" for each pair, joined by ", ".
 // Hint: build a string; add ", " before every pair except the first.
 // your code here
+
+function toPairs(obj) {
+  let pair = "";
+  for (const k in obj) {
+    if (pair !== "") {
+      pair += " ,";
+    }
+    pair += k + "=" + obj[k];
+  }
+  return '"' + pair + '"';
+}
+console.log(toPairs({ a: 1, b: 2 }));
+console.log(toPairs({ x: 5 }));
+console.log(toPairs({}));
 
 // console.log(toPairs({ a: 1, b: 2 }));
 // TEST 1:  toPairs({ a: 1, b: 2 })  ->  "a=1, b=2"
@@ -458,12 +479,19 @@ function doubleValues(obj){
    The object stops being a fixed record and becomes a lookup
    table you build as you go — the classic "frequency counter".
    ============================================================ */
-
+console.log("Part E-20");
 // ----- 20. Letter count -----
 // Write `letterCount(word)` that RETURNS an object mapping each letter to how many
 // times it appears. Hint: counts = {}; for each char, if missing start at 0, then +1.
 //   if (counts[ch] === undefined) counts[ch] = 0;  counts[ch]++;
 // your code here
+
+function letterCount(word) {
+  
+}
+console.log(letterCount("hello"));
+console.log(letterCount("aaa"));
+console.log(letterCount(""));
 
 // console.log(letterCount("hello"));
 // TEST 1:  letterCount("hello")  ->  { h: 1, e: 1, l: 2, o: 1 }
