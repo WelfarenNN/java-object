@@ -487,7 +487,12 @@ console.log("Part E-20");
 // your code here
 
 function letterCount(word) {
-  
+  counts = {};
+  for (i = 0; i <= word.length; i++) {
+    if (s) {
+    }
+    return counts;
+  }
 }
 console.log(letterCount("hello"));
 console.log(letterCount("aaa"));
