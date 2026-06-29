@@ -158,30 +158,45 @@ function removeField(obj, key) {
   delete obj[key];
   return obj;
 }
-console.log(removeField({ a: 1, b: 2 }, "a"));
-console.log(removeField({ a: 1, b: 2 }, "a"));
+console.log("a" in removeField({ a: 1, b: 2 }, "a"));
+console.log("b" in removeField({ a: 1, b: 2 }, "a"));
 console.log(removeField({ a: 1, b: 2 }, "a").b);
 
 // console.log(removeField({ a: 1, b: 2 }, "a"));
 // TEST 1:  "a" in removeField({ a: 1, b: 2 }, "a")     ->  false
 // TEST 2:  "b" in removeField({ a: 1, b: 2 }, "a")     ->  true
 // TEST 3:  removeField({ a: 1, b: 2 }, "a").b          ->  2
-
+console.log("Part B-7");
 // ----- 7. Does the key exist? -----
 // Write `hasField(obj, key)` that RETURNS true if the key exists, false otherwise.
 // Hint: key in obj.  (Note: a key holding undefined still counts as existing — use `in`.)
 // your code here
 
+function hasField(obj, key) {
+  return key in obj;
+}
+console.log(hasField({ a: 1 }, "a"));
+console.log(hasField({ a: 1 }, "b"));
+console.log(hasField({ a: undefined }, "a"));
+
 // console.log(hasField({ a: 1 }, "a"));
 // TEST 1:  hasField({ a: 1 }, "a")        ->  true
 // TEST 2:  hasField({ a: 1 }, "b")        ->  false
 // TEST 3:  hasField({ a: undefined }, "a") ->  true
-
+console.log("Part B-8");
 // ----- 8. Increment a counter field -----
 // Write `incrementField(obj, key)` that adds 1 to obj[key] and RETURNS obj. If the key
 // is missing, treat it as 0 first (so it becomes 1).
 // Hint: obj[key] = (obj[key] || 0) + 1.
 // your code here
+
+function incrementField(obj, key) {
+  obj[key] = (obj[key] || 0) + 1;
+  return obj;
+}
+console.log(incrementField({ a: 1 }, "a").a);
+console.log(incrementField({}, "new").new);
+console.log(incrementField({ a: 0 }, "a").a);
 
 // console.log(incrementField({ a: 1 }, "a"));
 // TEST 1:  incrementField({ a: 1 }, "a").a       ->  2
@@ -191,41 +206,104 @@ console.log(removeField({ a: 1, b: 2 }, "a").b);
 /* ============================================================
    PART C — NESTED, DEFAULTS, METHODS (`this`)
    ============================================================ */
-
+console.log("Part C-9");
 // ----- 9. Reach into a nested object -----
 // Write `getCity(user)` that RETURNS user.address.city (an object inside an object).
 // your code here
+
+function getCity(user) {
+  return user.address.city;
+}
+console.log(
+  getCity({ name: "Sam", address: { city: "Lagos", zip: "100001" } }),
+);
+console.log(getCity({ address: { city: "Paris" } }));
+console.log(getCity({ address: { city: "", zip: "0" } }));
 
 // console.log(getCity({ name: "Sam", address: { city: "Lagos", zip: "100001" } }));
 // TEST 1:  getCity({ name: "Sam", address: { city: "Lagos" } })  ->  "Lagos"
 // TEST 2:  getCity({ address: { city: "Paris" } })               ->  "Paris"
 // TEST 3:  getCity({ address: { city: "", zip: "0" } })          ->  ""
-
+console.log("Part C-10");
 // ----- 10. Value or fallback -----
 // Write `valueOr(obj, key, fallback)` that RETURNS obj[key] if the key EXISTS, else fallback.
 // Hint: if (key in obj) return obj[key]; else return fallback.
 // your code here
 
+function valueOr(obj, key, fallback) {
+  if (key in obj) {
+    return obj[key];
+  } else {
+    return fallback;
+  }
+}
+console.log(valueOr({ a: 1 }, "a", 0));
+console.log(valueOr({ a: 1 }, "a", 0));
+console.log(valueOr({ a: 0 }, "a", 99));
+
 // console.log(valueOr({ a: 1 }, "a", 0));
 // TEST 1:  valueOr({ a: 1 }, "a", 0)          ->  1
 // TEST 2:  valueOr({ a: 1 }, "b", 0)          ->  0
 // TEST 3:  valueOr({ a: 0 }, "a", 99)         ->  0     (key exists, so 0 wins over the fallback)
-
+console.log("Part C-11");
 // ----- 11. A counter object with a method (`this`) -----
 // Write `makeCounter()` that RETURNS an object with count: 0 and a method inc()
 // that adds 1 to its OWN count and RETURNS the new count.
 // Hint: { count: 0, inc() { this.count++; return this.count; } }  — `this` is the object.
 // your code here
 
+function makeCounter() {
+  return {
+    count: 0,
+    inc() {
+      this.count++;
+      return this.count;
+    },
+  };
+}
+const c = makeCounter();
+console.log(c.inc());
+const a = makeCounter();
+a.inc();
+a.inc();
+a.count;
+console.log(a.count);
+const b = makeCounter();
+b.inc();
+b.count;
+console.log(b.count);
+
 // const c = makeCounter(); console.log(c.inc());
 // TEST 1:  makeCounter().count        ->  0
 // TEST 2:  const a = makeCounter(); a.inc(); a.inc();  a.count   ->  2
 // TEST 3:  const b = makeCounter(); b.inc()                       ->  1
-
+console.log("Part C-12");
 // ----- 12. A bank account with deposit/withdraw -----
 // Write `makeBank(start)` that RETURNS an object with balance: start and two methods:
 // deposit(n) adds n to the balance, withdraw(n) subtracts n; both RETURN the new balance.
 // your code here
+
+function makeBank(start) {
+  return {
+    balance: start,
+    deposit(n) {
+      this.balance += n;
+      return this.balance;
+    },
+    withdraw(n) {
+      this.balance -= n;
+      return this.balance;
+    },
+  };
+}
+const acct = makeBank(100);
+console.log(acct.deposit(50));
+const x = makeBank(100);
+x.deposit(50);
+x.withdraw(30);
+x.balance;
+console.log(x.balance);
+console.log(makeBank(0).balance);
 
 // const acct = makeBank(100); console.log(acct.deposit(50));
 // TEST 1:  makeBank(100).deposit(50)   ->  150
@@ -235,62 +313,130 @@ console.log(removeField({ a: 1, b: 2 }, "a").b);
 /* ============================================================
    PART D — LOOP OVER AN OBJECT (for...in / Object.keys / values)
    ============================================================ */
-
+console.log("Part D-13");
 // ----- 13. Count the keys -----
 // Write `countKeys(obj)` that RETURNS how many keys the object has.
 // Hint: loop `for (const k in obj) count++`  OR  Object.keys(obj).length.
 // your code here
 
+function countKeys(obj) {
+  let count = 0;
+  for (const k in obj) {
+    count++;
+  }
+  return count;
+}
+// function countKeys(obj) {
+//   return Object.keys(obj).length;
+// }
+console.log(countKeys({ a: 1, b: 2, c: 3 }));
+console.log(countKeys({}));
+console.log(countKeys({ x: 5 }));
+
 // console.log(countKeys({ a: 1, b: 2, c: 3 }));
 // TEST 1:  countKeys({ a: 1, b: 2, c: 3 })  ->  3
 // TEST 2:  countKeys({})                    ->  0
 // TEST 3:  countKeys({ x: 5 })              ->  1
-
+console.log("Part D-14");
 // ----- 14. Sum the values -----
 // Write `sumValues(obj)` that RETURNS the sum of all (numeric) values.
 // Hint: total = 0; for (const k in obj) total += obj[k].
 // your code here
 
+function sumValues(obj) {
+  let total = 0;
+  for (const k in obj) {
+    total += obj[k];
+  }
+  return total;
+}
+console.log(sumValues({ a: 1, b: 2, c: 3 }));
+console.log(sumValues({ x: 10 }));
+console.log(sumValues({}));
+
 // console.log(sumValues({ a: 1, b: 2, c: 3 }));
 // TEST 1:  sumValues({ a: 1, b: 2, c: 3 })  ->  6
 // TEST 2:  sumValues({ x: 10 })             ->  10
 // TEST 3:  sumValues({})                    ->  0
-
+console.log("Part D-15");
 // ----- 15. Biggest value -----
 // Write `maxValue(obj)` that RETURNS the largest value. Assume at least one key.
 // Hint: start `best` from -Infinity, then compare each value.
 // your code here
 
+function maxValue(obj) {
+  let best = -Infinity;
+  for (const key in obj) {
+    if (obj[key] > best) {
+      best = obj[key];
+    }
+  }
+  return best;
+}
+console.log(maxValue({ a: 5, b: 9, c: 2 }));
+console.log(maxValue({ x: 7 }));
+console.log(maxValue({ a: -3, b: -1 }));
+
 // console.log(maxValue({ a: 5, b: 9, c: 2 }));
 // TEST 1:  maxValue({ a: 5, b: 9, c: 2 })     ->  9
 // TEST 2:  maxValue({ x: 7 })                 ->  7
 // TEST 3:  maxValue({ a: -3, b: -1 })         ->  -1
-
+console.log("Part D-16");
 // ----- 16. Key with the biggest value -----
 // Write `keyOfMax(obj)` that RETURNS the KEY whose value is largest (first one if tied).
 // Hint: track both bestKey and bestVal as you loop.
 // your code here
 
+function keyOfMax(obj) {
+  let bestVal = -Infinity;
+  let bestKey = null;
+  for (const key in obj) {
+    if (obj[key] > bestVal) {
+      bestVal = obj[key];
+      bestKey = key;
+    }
+  }
+  return bestKey;
+}
+console.log(keyOfMax({ math: 80, art: 95, gym: 88 }));
+console.log(keyOfMax({ a: 5, b: 9, c: 2 }));
+console.log(keyOfMax({ only: 1 }));
 // console.log(keyOfMax({ math: 80, art: 95, gym: 88 }));
 // TEST 1:  keyOfMax({ math: 80, art: 95, gym: 88 })  ->  "art"
 // TEST 2:  keyOfMax({ a: 5, b: 9, c: 2 })            ->  "b"
 // TEST 3:  keyOfMax({ only: 1 })                     ->  "only"
-
+console.log("Part D-17");
 // ----- 17. Average of the values -----
 // Write `averageValue(obj)` that RETURNS the mean of the values (sum divided by count).
 // Hint: total and count together in one loop, then total / count.
 // your code here
 
+function averageValue(obj) {
+  let total = 0;
+  let count = 0;
+  for (const key in obj) {
+    total += obj[key];
+    count++;
+  }
+  return total / count;
+}
+console.log(averageValue({ a: 2, b: 4, c: 6 }));
+console.log(averageValue({ x: 10 }))
+console.log(averageValue({ a: 1,b:2 }))
 // console.log(averageValue({ a: 2, b: 4, c: 6 }));
 // TEST 1:  averageValue({ a: 2, b: 4, c: 6 })  ->  4
 // TEST 2:  averageValue({ x: 10 })             ->  10
 // TEST 3:  averageValue({ a: 1, b: 2 })        ->  1.5
-
+console.log("Part D-18")
 // ----- 18. Double every value (new object) -----
 // Write `doubleValues(obj)` that RETURNS a NEW object with the same keys but every
 // value times 2. The original must stay untouched.
 // Hint: out = {}; for (const k in obj) out[k] = obj[k] * 2.
 // your code here
+
+function doubleValues(obj){
+  
+}
 
 // console.log(doubleValues({ a: 1, b: 2 }));
 // TEST 1:  doubleValues({ a: 1, b: 2 })  ->  { a: 2, b: 4 }
