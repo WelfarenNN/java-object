@@ -488,11 +488,14 @@ console.log("Part E-20");
 
 function letterCount(word) {
   counts = {};
-  for (i = 0; i <= word.length; i++) {
-    if (s) {
+  for (i = 0; i < word.length; i++) {
+    const ch = word[i];
+    if (counts[ch] === undefined) {
+      counts[ch] = 0;
     }
-    return counts;
+    counts[ch]++;
   }
+  return counts;
 }
 console.log(letterCount("hello"));
 console.log(letterCount("aaa"));
@@ -502,22 +505,46 @@ console.log(letterCount(""));
 // TEST 1:  letterCount("hello")  ->  { h: 1, e: 1, l: 2, o: 1 }
 // TEST 2:  letterCount("aaa")    ->  { a: 3 }
 // TEST 3:  letterCount("")       ->  {}     (empty word, empty object)
-
+console.log("Part D-21");
 // ----- 21. Length of each word -----
 // Write `wordLengths(sentence)` that RETURNS an object mapping each word to its length.
 // Hint: sentence.split(" ") gives the words; loop them, set obj[word] = word.length.
 // your code here
 
+function wordLengths(sentence) {
+  const obj = {};
+  const word = sentence.split(" ");
+  for (i = 0; i < word.length; i++) {
+    const words = word[i];
+    obj[words] = word[i].length;
+  }
+  return obj;
+}
+console.log(wordLengths("the cat sat"));
+console.log(wordLengths("hi there"));
+console.log(wordLengths("one"));
+
 // console.log(wordLengths("the cat sat"));
 // TEST 1:  wordLengths("the cat sat")  ->  { the: 3, cat: 3, sat: 3 }
 // TEST 2:  wordLengths("hi there")     ->  { hi: 2, there: 5 }
 // TEST 3:  wordLengths("one")          ->  { one: 3 }
-
+console.log("Part D-22");
 // ----- 22. Flip keys and values -----
 // Write `invert(obj)` that RETURNS a new object where each value becomes a key and
 // each key becomes its value. Assume values are unique strings/numbers.
 // Hint: out = {}; for (const k in obj) out[obj[k]] = k.
 // your code here
+
+function invert(obj) {
+  const out = {};
+  for (const k in obj) {
+    out[obj[k]] = k;
+  }
+  return out;
+}
+console.log(invert({ a: "x", b: "y" }));
+console.log(invert({ one: 1 }));
+console.log(invert({}));
 
 // console.log(invert({ a: "x", b: "y" }));
 // TEST 1:  invert({ a: "x", b: "y" })   ->  { x: "a", y: "b" }
@@ -527,22 +554,40 @@ console.log(letterCount(""));
 /* ============================================================
    PART F — COPY (new object, original untouched)
    ============================================================ */
-
+console.log("Part F-23");
 // ----- 23. Shallow copy -----
 // Write `copyObject(obj)` that RETURNS a NEW object with the same keys and values.
 // Changing the copy must NOT change the original. Hint: { ...obj }.
 // your code here
 
+function copyObject(obj) {
+  return { ...obj };
+}
+console.log(copyObject({ a: 1, b: 2 }).a);
+const o = { a: 1 };
+console.log(copyObject(o) === o);
+console.log(copyObject({}));
+
 // console.log(copyObject({ a: 1, b: 2 }));
 // TEST 1:  copyObject({ a: 1, b: 2 }).a   ->  1
 // TEST 2:  const o = { a: 1 }; copyObject(o) === o   ->  false   (a NEW object, not the same one)
 // TEST 3:  copyObject({})                 ->  {}
-
+console.log("Part F-24");
 // ----- 24. Omit a key WITHOUT mutating (reuse copyObject) -----
 // Write `omitField(obj, key)` that RETURNS a NEW object with that key removed, leaving
 // the original untouched. (Contrast removeField in ex 6, which mutates.)
 // Hint: copyObject first, then delete the key from the copy.
 // your code here
+
+function omitField(obj, key) {
+  const copykey = { ...obj };
+  delete copykey[key];
+  return copykey;
+}
+console.log(omitField({ a: 1, b: 2 }, "a"));
+const u = { a: 1, b: 2 };
+console.log(omitField(u, "a"), "a" in u);
+console.log(omitField({ a: 1 }, "a"));
 
 // console.log(omitField({ a: 1, b: 2 }, "a"));
 // TEST 1:  omitField({ a: 1, b: 2 }, "a")                  ->  { b: 2 }
@@ -555,45 +600,127 @@ console.log(letterCount(""));
    things in an object, then read the counts back. The last two
    COMPOSE earlier functions over nested data — the real test.
    ============================================================ */
-
+console.log("Part G-25");
 // ----- 25. First Unique Character  (LeetCode 387 lite) -----
 // Write `firstUniqueChar(word)` -> the FIRST character that appears exactly once.
 // If none, RETURN "". Hint: count every char into an object, then walk the word again
 // and return the first char whose count is 1.
 // your code here
 
+function firstUniqueChar(word) {
+  const count = {};
+  for (let i = 0; i < word.length; i++) {
+    const uniq = word[i];
+    if (count[uniq] === undefined) {
+      count[uniq] = 0;
+    }
+    count[uniq]++;
+  }
+  for (let i = 0; i < word.length; i++) {
+    const uniq = word[i];
+    if (count[uniq] === 1) {
+      return '"' + uniq + '"';
+    }
+  }
+  return '"' + "" + '"';
+}
+console.log(firstUniqueChar("leetcode"));
+console.log(firstUniqueChar("swiss"));
+console.log(firstUniqueChar("aabb"));
+
 // console.log(firstUniqueChar("leetcode"));
 // EXAMPLE 1:  firstUniqueChar("leetcode")  ->  "l"
 // EXAMPLE 2:  firstUniqueChar("swiss")     ->  "w"
 // EXAMPLE 3:  firstUniqueChar("aabb")      ->  ""    (every char repeats)
-
+console.log("Part G-26");
 // ----- 26. Valid Anagram  (LeetCode 242) -----
 // Write `areAnagrams(a, b)` -> true if b is a rearrangement of a (same letters, same
 // counts). Hint: if lengths differ -> false; count a into an object; walk b subtracting;
 // any count going negative or a missing key -> false.
 // your code here
 
+function areAnagrams(a, b) {
+  if (a.length !== b.length) {
+    return false;
+  }
+  const count = {};
+  for (let i = 0; i < a.length; i++) {
+    const Anagram = a[i];
+    if (count[Anagram] === undefined) {
+      count[Anagram] = 0;
+    }
+    count[Anagram]++;
+  }
+  for (let i = 0; i < b.length; i++) {
+    const Anagram = b[i];
+    if (count[Anagram] === undefined || count[Anagram] === 0) {
+      return false;
+    }
+    count[Anagram]--;
+  }
+  return true;
+}
+console.log(areAnagrams("listen", "silent"));
+console.log(areAnagrams("hello", "world"));
+console.log(areAnagrams("a", "aa"));
+
 // console.log(areAnagrams("listen", "silent"));
 // EXAMPLE 1:  areAnagrams("listen", "silent")  ->  true
 // EXAMPLE 2:  areAnagrams("hello", "world")    ->  false
 // EXAMPLE 3:  areAnagrams("a", "aa")           ->  false   (different lengths)
-
+console.log("Part G-27");
 // ----- 27. Can Form a Palindrome  (LeetCode 266 lite) -----
 // Write `canFormPalindrome(word)` -> true if the letters can be rearranged into a
 // palindrome. Rule: at most ONE letter may have an odd count. Hint: build counts,
 // then count how many counts are odd; ok if that total is 0 or 1.
 // your code here
 
+function canFormPalindrome(word) {
+  const count = {};
+  for (let i = 0; i < word.length; i++) {
+    const pali = word[i];
+    if (count[pali] === undefined) {
+      count[pali] = 0;
+    }
+    count[pali]++;
+  }
+  let oddCount = 0;
+  for (const pali in count) {
+    if (count[pali] % 2 !== 0) {
+      oddCount++;
+    }
+  }
+  return oddCount <= 1;
+}
+console.log(canFormPalindrome("aabb"));
+console.log(canFormPalindrome("abc"));
+console.log(canFormPalindrome("racecar"));
+
 // console.log(canFormPalindrome("aabb"));
 // EXAMPLE 1:  canFormPalindrome("aabb")     ->  true    (aabb -> "abba")
 // EXAMPLE 2:  canFormPalindrome("abc")      ->  false   (three odd counts)
 // EXAMPLE 3:  canFormPalindrome("racecar")  ->  true    (only e is odd)
-
+console.log("Part G-28");
 // ----- 28. Merge Keeping the Max -----
 // Write `mergeMax(a, b)` -> a NEW object with every key from both; when a key is in
 // BOTH, keep the LARGER value. Hint: copy a, then for each key in b use Math.max if the
 // key already exists, else just take b's value.
 // your code here
+
+function mergeMax(a, b) {
+  const result = { ...a };
+  for (const key in b) {
+    if (result[key] !== undefined) {
+      result[key] = Math.max(result[key], b[key]);
+    } else {
+      result[key] = b[key];
+    }
+  }
+  return result;
+}
+console.log(mergeMax({ a: 1, b: 5 }, { a: 3, b: 2, c: 9 }));
+console.log(mergeMax({}, { x: 1 }));
+console.log(mergeMax({ k: 4 }, { k: 2 }));
 
 // console.log(mergeMax({ a: 1, b: 5 }, { a: 3, b: 2, c: 9 }));
 // EXAMPLE 1:  mergeMax({ a: 1, b: 5 }, { a: 3, b: 2, c: 9 })  ->  { a: 3, b: 5, c: 9 }
@@ -630,23 +757,52 @@ const SCHOOL = {
     },
   },
 };
-
+console.log("Part G-29")
 // ----- 29. One student's average (the bottom brick) -----
 // Write `studentAverage(scores)` where scores is a plain { subject: number } object.
 // RETURN the mean of the values. Everything in the next exercise calls this.
 // Hint: total + count in one for...in loop, then total / count (like ex 17).
 // your code here
 
+function studentAverage(scores){
+  let total = 0;
+  let count = 0;
+  for (const subject in scores) {
+    total += scores[subject];
+    count++;
+  }
+  return total / count;
+}
+console.log(studentAverage({ math: 90, english: 80, science: 70 }));
+console.log(studentAverage({ math: 60, english: 60, science: 60 }));
+console.log(studentAverage({ a:1, b:2 }));
+
 // console.log(studentAverage({ math: 90, english: 80, science: 70 }));
 // TEST 1:  studentAverage({ math: 90, english: 80, science: 70 })  ->  80
 // TEST 2:  studentAverage({ math: 60, english: 60, science: 60 })  ->  60
 // TEST 3:  studentAverage({ a: 1, b: 2 })                          ->  1.5
-
+console.log("Part G-30")
 // ----- 30. A class average (CALL studentAverage) -----
 // Write `classAverage(school, classId)` that RETURNS the mean of the students' averages
 // in that class. Loop the students with for...in, CALL studentAverage on each one's
 // scores, total them, divide by the count. This is the COMPOSE finale.
 // your code here
+
+function classAverage(school, classId) {
+  const classinfo = school.classes[classId]; 
+  const students = classinfo.students; 
+  let totalAverage = 0;
+  let count = 0;
+  for (const studentId in students) {
+    const studentScores = students[studentId]; 
+    totalAverage += studentAverage(studentScores);
+    count++;
+  }
+  return totalAverage / count;
+}
+console.log(classAverage(SCHOOL, "jss1"));
+console.log(classAverage(SCHOOL, "jss2"));
+console.log(classAverage({ classes: { x: { students: { p: { a: 10 }, q: { a: 20 } } } } }, "x"))
 
 // console.log(classAverage(SCHOOL, "jss1"));
 // TEST 1:  classAverage(SCHOOL, "jss1")  ->  65    (80 + 50, / 2)
